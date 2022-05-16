@@ -1,0 +1,18 @@
+{
+  "name": "flow-desktop-controller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "github:castlabs/electron-releases#v12.2.3-wvvmp"
+  },
+  "devDependencies": {
+    "electron-reloader": "^1.2.3"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
