@@ -10,7 +10,6 @@ module.exports.createServer = (mainWindow) => {
 
     io.on("connection", (socket) => {
         console.log("Client connected", socket.handshake.address);
-        const whiteList = ["::ffff:192.168.0.11", "::ffff:192.168.0.139"]
 
         socket.on("changeChannel", (channel) => {
             console.log(channel, "channel");
@@ -19,8 +18,8 @@ module.exports.createServer = (mainWindow) => {
                 console.log(socket.handshake.address, "received");
                 mainWindow.webContents.session.clearStorageData({
                     storages: ['serviceworkers', 'appcache', 'cachestorage']
-                }).then(() => {  
-                mainWindow.loadURL(`https://web.flow.com.ar/vivo?channel=${channel}`);
+                }).then(() => {
+                    mainWindow.loadURL(`https://web.flow.com.ar/vivo?channel=${channel}`);
                 }).catch(err => {
                     console.log(err);
                 });
@@ -41,12 +40,21 @@ const express = require('express')
 module.exports.createPage = () => {
     const { dirname } = require('path');
     const appDir = dirname(require.main.filename);
-
+    const fs = require('fs');
     const app = express()
-    const port = 2005
+    app.set('view engine', 'ejs');
+
+    const port = 2005;
+
+    const hostStr = fs.readFileSync(`${appDir}/AppData/host.json`, 'utf8');
+    const host = JSON.parse(hostStr).host;
 
     app.get('/', (req, res) => {
-        res.sendFile(`${appDir}/Controller/public/controller.html`);
+        res.render(`${appDir}/Controller/public/controller.ejs`, {
+            locals: {
+                host: host,
+            }
+        });
     })
 
     app.listen(port, () => {

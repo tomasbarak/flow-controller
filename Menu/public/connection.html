@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow - Devices</title>
+</head>
+<body>
+    <script>
+        const { dirname } = require('path');
+        const appDir = dirname(require.main.filename);
+        const fs = require('fs');
+
+        const whitelistStr = fs.readFileSync(`${appDir}/AppData/whitelist.json`, 'utf8');
+        const whitelist = JSON.parse(whitelistStr);
+        const whitelistHosts = whitelist.hosts;
+    </script>
+</body>
+</html>
