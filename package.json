@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "electron": "github:castlabs/electron-releases#v12.2.3-wvvmp"
+    "electron": "github:castlabs/electron-releases#v12.2.3-wvvmp",
+    "express": "^4.18.1",
+    "path": "^0.12.7",
+    "socket.io": "^4.5.0"
   },
   "devDependencies": {
     "electron-reloader": "^1.2.3"

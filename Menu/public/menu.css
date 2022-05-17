@@ -1,0 +1,52 @@
+body, html{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#options{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    width: 400px;
+}
+.option{
+    transition-duration: 0.2s;
+    color: #fff;
+    background-color: rgb(50, 50, 50);
+    height: 100px;
+    width: 400px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+.option:hover{
+    transition-duration: 0.2s;
+    background-color: rgb(100, 100, 100);
+}
+
+.option-icon{
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.option + .option{
+    margin-top: 10px;
+}
