@@ -1,7 +1,7 @@
 const { Server } = require("socket.io");
 
 module.exports.createServer = (mainWindow) => {
-
+    const appDir = require('path').dirname(require.main.filename);
     const io = new Server(2009, {
         cors: {
             origin: "*",
@@ -10,11 +10,14 @@ module.exports.createServer = (mainWindow) => {
 
     io.on("connection", (socket) => {
         console.log("Client connected", socket.handshake.address);
+        const ipAddr = String(socket.handshake.address).replace(/^::ffff:/, '');
+
+        const { createEmptyWhiteList, updateWhiteList, getWhiteList, addHostToWhiteList, isInWhiteList } = require(`${appDir}/Controller/Whitelist/whitelist.js`);
+        const whiteList = getWhiteList();
+        addHostToWhiteList(String(socket.handshake.address).replace(/^::ffff:/, ''));
 
         socket.on("changeChannel", (channel) => {
-            console.log(channel, "channel");
-
-            if (whiteList.includes(socket.handshake.address)) {
+            if (isInWhiteList(ipAddr)) {
                 console.log(socket.handshake.address, "received");
                 mainWindow.webContents.session.clearStorageData({
                     storages: ['serviceworkers', 'appcache', 'cachestorage']
@@ -38,21 +41,18 @@ module.exports.createServer = (mainWindow) => {
 const express = require('express')
 
 module.exports.createPage = () => {
-    const { dirname } = require('path');
-    const appDir = dirname(require.main.filename);
-    const fs = require('fs');
+    const appDir = require('path').dirname(require.main.filename);
+    const { getHostIp } = require(`${appDir}/Controller/Server/host.js`);
+
     const app = express()
     app.set('view engine', 'ejs');
 
     const port = 2005;
 
-    const hostStr = fs.readFileSync(`${appDir}/AppData/host.json`, 'utf8');
-    const host = JSON.parse(hostStr).host;
-
     app.get('/', (req, res) => {
         res.render(`${appDir}/Controller/public/controller.ejs`, {
             locals: {
-                host: host,
+                host: getHostIp(),
             }
         });
     })

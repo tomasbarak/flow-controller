@@ -32,10 +32,12 @@ module.exports.setMenuClickEvents = () => {
 
     btnVerTv.addEventListener('click', () => {
         const currentWindow = require('electron').remote.getCurrentWindow();
+        const randomChannel = Math.floor(Math.random() * 600);
         currentWindow.webContents.session.clearStorageData({
             storages: ['serviceworkers', 'appcache', 'cachestorage']
         }).then(() => {
-            currentWindow.loadURL(`https://web.flow.com.ar/vivo?channel=${Math.floor(Math.random() * 600)}`);
+            currentWindow.loadURL(`https://web.flow.com.ar/vivo?channel=${randomChannel}`);
+            currentWindow.customData.channel = randomChannel;
         });
     });
 
