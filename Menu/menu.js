@@ -23,6 +23,18 @@ module.exports.createMenuWindow = () => {
     menuWindow.show();
     menuWindow.closable = false;
 
+    const removeHTMLElementByClass = (className, window) => {
+        window.webContents.executeJavaScript(`document.querySelectorAll('.${className}')[0].parentNode.removeChild(document.querySelectorAll('.${className}')[0])`)
+    }
+
+    menuWindow.webContents.on('did-finish-load', function() {
+        const loadedUrl = menuWindow.webContents.getURL();
+        if(String(loadedUrl).includes("https://web.flow.com.ar/vivo?channel")){
+            console.log(loadedUrl);
+            removeHTMLElementByClass("header", menuWindow);
+        }
+    });
+
     return menuWindow;
 }
 
